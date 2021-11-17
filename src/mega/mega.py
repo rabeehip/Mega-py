@@ -795,7 +795,7 @@ class Mega:
                 if dlstats_msg is None:
                     return
                 else:
-                    dlstats_msg.edit_text(f"<b>📂 {file_name}</b>\n\n<b>📥 Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="ddlcancel")]]))
+                    dlstats_msg.edit_text(f"<b>📂 {file_name}</b>\n\n<b>📥 Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
                     # logger.info('%s of %s downloaded', file_info.st_size, file_size)
             
             file_mac = str_to_a32(mac_str)
