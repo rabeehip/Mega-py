@@ -50,7 +50,7 @@ CANCEL_BUTTN=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "Cancel ❌", callback_data="cancelvro"
+                        "Cancel", callback_data="cancel"
                     )
                 ]
             ]
@@ -781,12 +781,22 @@ class Mega:
                 mac_str = mac_encryptor.encrypt(encryptor.encrypt(block))
 
                 file_info = os.stat(temp_output_file.name)
+                percentage = file_info.st_size * 100 / file_size
+                
+                progress = "[{0}{1}]\n".format(
+                  ''.join(["▪️" for i in range(math.floor(percentage / 10))]),
+                  ''.join(["▫️" for i in range(10 - math.floor(percentage / 10))])
+                )
+
+                ok = "{0}%".format(
+                  round(percentage, 2)
+                )
                 # Edit status message
                 if dlstats_msg is None:
                     return
                 else:
-                    dlstats_msg.edit_text(f"**Starting to Download The Content! This may take while 😴** \n\n📑 **Info,** \n  ⊳ **File Name:** `{file_name}` \n  ⊳ **Url:** [Received Url]({mega_file_url}) \n\n📊 **Progress,** \n  ⊳ **Total File Size:** `{humanize.naturalsize(file_size)}` \n  ⊳ **Downloaded:** `{humanize.naturalsize(file_info.st_size)}`", reply_markup=CANCEL_BUTTN, disable_web_page_preview=True)
-                    logger.info('%s of %s downloaded', file_info.st_size, file_size)
+                    dlstats_msg.edit(f"<b>📂 {file_name}</b>\nn\n<b>📥 Downloading: {ok}</b>\n{progress}\n{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
+                    # logger.info('%s of %s downloaded', file_info.st_size, file_size)
             
             file_mac = str_to_a32(mac_str)
             # check mac integrity
