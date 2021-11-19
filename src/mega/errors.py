@@ -37,7 +37,7 @@ _CODE_TO_DESCRIPTIONS = {
     -13: ('EINCOMPLETE', 'Trying to access an incomplete resource'),
     -14: ('EKEY', 'A decryption operation failed (never returned by the API)'),
     -15: ('ESID', 'Invalid or expired user session, please relogin'),
-    -16: ('EBLOCKED', 'Link provider's account is blocked!'),
+    -16: ('EBLOCKED', 'Link provider account is blocked!'),
     -17: ('EOVERQUOTA', 'Request over quota'),
     -18: ('ETEMPUNAVAIL',
           'Resource temporarily not available, please try again later'),
