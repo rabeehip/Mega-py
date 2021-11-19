@@ -800,29 +800,28 @@ class Mega:
                 now = time.time()
                 diff = now - start
                 current = file_info
-                total = file_size
-                if round(diff % 10.00) == 0 or current == total:                    
-                    speed = current / diff
-                    elapsed_time = round(diff) * 1000
-                    time_to_completion = round((total - current) / speed) * 1000
-                    estimated_total_time = elapsed_time + time_to_completion
-                    elapsed_time = TimeFormatter(milliseconds=elapsed_time)
-                    estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)                   
-                    percentage = file_info.st_size * 100 / file_size
+                total = file_size                                   
+                speed = current / diff
+                elapsed_time = round(diff) * 1000
+                time_to_completion = round((total - current) / speed) * 1000
+                estimated_total_time = elapsed_time + time_to_completion
+                elapsed_time = TimeFormatter(milliseconds=elapsed_time)
+                estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)                   
+                percentage = file_info.st_size * 100 / file_size
                 
-                    progress = "[{0}{1}]\n".format(
-                      ''.join(["▪️" for i in range(math.floor(percentage / 10))]),
-                      ''.join(["▫️" for i in range(10 - math.floor(percentage / 10))])
-                    )
+                progress = "[{0}{1}]\n".format(
+                  ''.join(["▪️" for i in range(math.floor(percentage / 10))]),
+                  ''.join(["▫️" for i in range(10 - math.floor(percentage / 10))])
+                )
 
-                    ok = "{0}%".format(
-                      round(percentage, 2)
-                    )
-                # Edit status message
-                    if dlstats_msg is None:
-                        return
-                    else:
-                        dlstats_msg.edit_text(f"<b>📂 {file_name}</b>\n\n<b>📥 Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\nSpeed: {humanize.naturalsize(speed)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
+                ok = "{0}%".format(
+                  round(percentage, 2)
+                )
+                #Edit status message
+                if dlstats_msg is None:
+                    return
+                else:
+                    dlstats_msg.edit_text(f"<b>📂 {file_name}</b>\n\n<b>📥 Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\nSpeed: {humanize.naturalsize(speed)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
                     # logger.info('%s of %s downloaded', file_info.st_size, file_size)
             
             file_mac = str_to_a32(mac_str)
