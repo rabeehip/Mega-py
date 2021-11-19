@@ -681,6 +681,7 @@ class Mega:
         file_id = path[0]
         file_key = path[1]
         return self._download_file(
+            start,
             file_handle=file_id,
             file_key=file_key,
             dest_path=dest_path,
@@ -691,6 +692,7 @@ class Mega:
         )
 
     def _download_file(self,
+                       start,
                        file_handle,
                        file_key,
                        dest_path=None,
