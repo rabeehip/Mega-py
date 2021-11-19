@@ -18,6 +18,7 @@ import random
 import binascii
 import tempfile
 import shutil
+import time
 
 import requests
 from tenacity import retry, wait_exponential, retry_if_exception_type
@@ -44,6 +45,18 @@ logger = logging.getLogger(__name__)
 #         size /= power
 #         n += 1
 #         return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
+
+def TimeFormatter(milliseconds: int) -> str:
+    seconds, milliseconds = divmod(int(milliseconds), 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    tmp = ((str(days) + "d, ") if days else "") + \
+        ((str(hours) + "h, ") if hours else "") + \
+        ((str(minutes) + "m, ") if minutes else "") + \
+        ((str(seconds) + "s, ") if seconds else "") + \
+        ((str(milliseconds) + "ms, ") if milliseconds else "")
+    return tmp[:-2]
 
 # Cancel Button
 CANCEL_BUTTN=InlineKeyboardMarkup(
@@ -659,7 +672,7 @@ class Mega:
         nodes = self.get_files()
         return self.get_folder_link(nodes[node_id])
 
-    def download_url(self, url, dest_path=None, dest_filename=None, statusdl_msg=None):
+    def download_url(self, url, dest_path=None, dest_filename=None, statusdl_msg=None, start):
         """
         Download a file by it's public url
         """
@@ -781,6 +794,19 @@ class Mega:
                 mac_str = mac_encryptor.encrypt(encryptor.encrypt(block))
 
                 file_info = os.stat(temp_output_file.name)
+                
+                now = time.time()
+                diff = now - start
+                current = file_info.st_size
+                total = file_size
+                if round(diff % 10.00) == 0 or current == total:                    
+                    speed = current / diff
+                    elapsed_time = round(diff) * 1000
+                    time_to_completion = round((total - current) / speed) * 1000
+                    estimated_total_time = elapsed_time + time_to_completion
+                    elapsed_time = TimeFormatter(milliseconds=elapsed_time)
+                    estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
+                    
                 percentage = file_info.st_size * 100 / file_size
                 
                 progress = "[{0}{1}]\n".format(
@@ -795,7 +821,7 @@ class Mega:
                 if dlstats_msg is None:
                     return
                 else:
-                    dlstats_msg.edit_text(f"<b>📂 {file_name}</b>\n\n<b>📥 Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
+                    dlstats_msg.edit_text(f"<b>📂 {file_name}</b>\n\n<b>📥 Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\n\nSpeed: {humanize.naturalsize(speed)}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
                     # logger.info('%s of %s downloaded', file_info.st_size, file_size)
             
             file_mac = str_to_a32(mac_str)
