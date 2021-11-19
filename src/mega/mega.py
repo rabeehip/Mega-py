@@ -799,7 +799,7 @@ class Mega:
                 
                 now = time.time()
                 diff = now - start
-                current = file_info
+                current = file_info.st_size
                 total = file_size                                   
                 speed = current / diff
                 elapsed_time = round(diff) * 1000
