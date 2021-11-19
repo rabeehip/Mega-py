@@ -7,7 +7,7 @@ class ValidationError(Exception):
 
 _CODE_TO_DESCRIPTIONS = {
     -1: ('EINTERNAL',
-         ('An internal error has occurred. Please submit a bug report, '
+         ('An internal error has occurred. Please submit a bug report on @RGDiscussion, '
           'detailing the exact circumstances in which this error occurred')),
     -2: ('EARGS', 'You have passed invalid arguments to this command'),
     -3: ('EAGAIN',
@@ -37,7 +37,7 @@ _CODE_TO_DESCRIPTIONS = {
     -13: ('EINCOMPLETE', 'Trying to access an incomplete resource'),
     -14: ('EKEY', 'A decryption operation failed (never returned by the API)'),
     -15: ('ESID', 'Invalid or expired user session, please relogin'),
-    -16: ('EBLOCKED', 'User blocked'),
+    -16: ('EBLOCKED', 'Link provider's account is blocked!'),
     -17: ('EOVERQUOTA', 'Request over quota'),
     -18: ('ETEMPUNAVAIL',
           'Resource temporarily not available, please try again later'),
