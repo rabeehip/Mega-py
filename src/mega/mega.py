@@ -799,7 +799,7 @@ class Mega:
                 
                 now = time.time()
                 diff = now - start
-                current = file_info.st_size
+                current = file_info
                 total = file_size
                 if round(diff % 10.00) == 0 or current == total:                    
                     speed = current / diff
