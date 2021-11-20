@@ -822,7 +822,10 @@ class Mega:
                     return
                 else:
                     etap = estimated_total_time if estimated_total_time != '' else "0 s"
-                    dlstats_msg.edit_text(f"<b>Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\nSpeed: {humanize.naturalsize(speed)}/s\nETA: {etap}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
+                    try:
+                        dlstats_msg.edit_text(f"<b>Downloading: {ok}</b>\n{progress}{humanize.naturalsize(file_info.st_size)} of {humanize.naturalsize(file_size)}\nSpeed: {humanize.naturalsize(speed)}/s\nETA: {etap}\n\n<b>Thanks for using</b> @RGAiouploaderbot", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Cancel", callback_data="cancel_mega")]]))
+                    except Exception:
+                        pass 
                     # logger.info('%s of %s downloaded', file_info.st_size, file_size)
             
             file_mac = str_to_a32(mac_str)
