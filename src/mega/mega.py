@@ -1097,7 +1097,7 @@ class Mega:
                                        file_key,
                                        dest_node=dest_node,
                                        dest_name=dest_name)
-
+   
     def get_public_file_info(self, file_handle, file_key):
         """
         Get size and name of a public file
@@ -1117,7 +1117,7 @@ class Mega:
         unencrypted_attrs = decrypt_attr(base64_url_decode(data['at']), k)
         if not unencrypted_attrs:
             return None
-        result = {'size': size, 'name': unencrypted_attrs['n']}
+        result = f"""{size}|{unencrypted_attrs['n']}""" # Customly returning the mega link's file size and file name
         return result
 
     def import_public_file(self,
